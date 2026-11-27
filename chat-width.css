@@ -1,0 +1,437 @@
+.cx-chat-width-handle {
+  position: absolute;
+  z-index: 30;
+  translate: -50% 0;
+  inline-size: 14px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: ew-resize;
+  touch-action: none;
+  -webkit-app-region: no-drag;
+}
+
+.cx-chat-width-handle::before {
+  --line-length: min(64px, 100%);
+  position: absolute;
+  inset-block-start: clamp(0px, calc(var(--cx-chat-width-pointer-y, 50%) - var(--line-length) / 2), calc(100% - var(--line-length)));
+  left: 50%;
+  translate: -50% 0;
+  inline-size: 1px;
+  block-size: var(--line-length);
+  background: linear-gradient(transparent, currentColor, transparent);
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.cx-chat-width-handle:is(:hover, :focus-visible, [data-dragging])::before { opacity: 0.65; }
+.cx-chat-width-handle:focus-visible { outline: none; }
+.cx-chat-width-handle:focus-visible::before { opacity: 1; }
+.cx-chat-width-handle[hidden] { display: none; }
+
+.cx-panel-colors__reset {
+  min-block-size: 1.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: transparent;
+  padding-inline: .625rem;
+  font-size: var(--text-sm, 12px);
+  cursor: pointer;
+}
+
+.cx-panel-colors__field { position: relative; }
+
+.cx-panel-colors__trigger {
+  position: absolute;
+  inset: -1px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.cx-panel-colors__swatch {
+  flex: none;
+  inline-size: .875rem;
+  block-size: .875rem;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cx-panel-colors__field input[type="text"] {
+  position: relative;
+  flex: 1;
+  min-inline-size: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  outline: none;
+  font-size: var(--text-xs, 11px);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+}
+
+.cx-panel-colors__reset:hover:enabled { background: color-mix(in srgb, currentColor 8%, transparent); }
+.cx-panel-colors__row :is(input, button):disabled { opacity: .46; cursor: default; }
+.cx-panel-colors__reset:focus-visible { outline: 2px solid var(--color-ring); }
+.cx-panel-colors__row [role="status"]:empty { display: none; }
+
+.cx-color-palette {
+  position: fixed;
+  inset: auto;
+  position-area: bottom span-left;
+  position-try-fallbacks: flip-block, flip-inline;
+  margin: .25rem 0;
+  padding: .75rem;
+  border: 1px solid var(--color-border);
+  border-radius: .75rem;
+  background: var(--color-surface-elevated, var(--color-surface));
+  box-shadow: var(--shadow, 0 6px 20px #0004);
+  overflow: visible;
+}
+
+.cx-color-palette__area,
+.cx-color-palette__hue {
+  position: relative;
+  inline-size: 8.5rem;
+  outline: none;
+  touch-action: none;
+  user-select: none;
+}
+
+.cx-color-palette__area {
+  block-size: 7rem;
+  border-block-end: .75rem solid black;
+  border-radius: .5rem .5rem 0 0;
+  background: linear-gradient(0deg, black, transparent), linear-gradient(90deg, white, transparent), var(--cx-palette-hue);
+}
+
+.cx-color-palette__hue {
+  block-size: 1.5rem;
+  border-radius: 0 0 .5rem .5rem;
+  background: linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta, red);
+}
+
+.cx-color-palette__area::after,
+.cx-color-palette__hue::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px #0003;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+.cx-color-palette__area::after {
+  z-index: 2;
+  left: var(--cx-palette-x);
+  top: var(--cx-palette-y);
+  background: var(--cx-palette-color);
+}
+
+.cx-color-palette__hue::after {
+  left: var(--cx-palette-hue-x);
+  top: 50%;
+  background: var(--cx-palette-hue);
+}
+
+.cx-color-palette [role="slider"]:focus-visible::after { scale: 1.1; }
+
+.cx-theme-display { display: none; }
+[data-cx-codexhost-chat-width-macos] .cx-theme-display { display: inline; }
+[data-cx-codexhost-chat-width-macos] [data-cx-codexhost-chat-width-native-theme-label] { display: none; }
+[data-cx-codexhost-chat-width-macos] [data-cx-codexhost-chat-width-native-theme-menu]
+  [role="menuitemradio"][aria-checked="true"]:not(.cx-theme-choice) > div > span:last-child { visibility: hidden; }
+
+.cx-theme-option {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  inline-size: 100%;
+  padding: .375rem .625rem;
+  border: 0;
+  border-radius: var(--radius-xl-base, 10px);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 500;
+  text-align: start;
+  cursor: pointer;
+}
+
+.cx-theme-option:is(:hover, :focus-visible, [aria-expanded="true"]) {
+  background-color: var(--color-secondary-ghost-hover, color-mix(in srgb, currentColor 8%, transparent));
+}
+.cx-theme-option:focus-visible { outline: 1px solid var(--color-border, currentColor); outline-offset: -2px; }
+
+.cx-theme-group { anchor-name: --cx-island-themes; }
+
+.cx-theme-popup {
+  position: fixed;
+  position-anchor: --cx-island-themes;
+  position-area: left span-bottom;
+  position-try-fallbacks: flip-inline, flip-block, flip-inline flip-block, bottom span-left;
+  align-self: start;
+  justify-self: end;
+  inset: auto;
+  margin: 0 .25rem;
+  padding: var(--app-menu-gutter, .25rem);
+  border: 0;
+  outline: none;
+  inline-size: min(14rem, calc(100vw - 1rem));
+  border-radius: var(--radius-xl-base, 12px);
+  pointer-events: auto;
+}
+
+[dir="rtl"] .cx-theme-popup { position-area: right span-bottom; justify-self: start; }
+.cx-theme-popup:not(:popover-open) { display: none; }
+.cx-theme-badge { display: grid; place-items: center; flex: none; inline-size: 1.5rem; block-size: 1.5rem; border-radius: 50%; background: var(--color-surface); color: var(--color-text-secondary); font-size: .75rem; }
+.cx-theme-trailing { margin-inline-start: auto; }
+.cx-theme-choice[aria-checked="false"] .cx-theme-trailing { visibility: hidden; }
+.cx-theme-status { padding: .25rem .625rem; color: var(--color-text-secondary); }
+.cx-theme-status:empty { display: none; }
+
+html[data-cx-codexhost-chat-width-macos] {
+  --cx-macos-window: light-dark(#dedede, #191919);
+  --cx-macos-sidebar: light-dark(#eeeeee, #292929);
+  --cx-macos-content: light-dark(#f4f4f4, #2d2d2d);
+  --cx-macos-toolbar: light-dark(#efefef, #303030);
+  --cx-macos-input: light-dark(#ffffff, #3d3d3d);
+  --cx-macos-selection: light-dark(#d6d6d6, #474747);
+  --cx-macos-inset: clamp(3px, .33vw, 6px);
+  --cx-macos-panel-shadow: 0 3px 8px #0004;
+  --cx-macos-input-shadow: 0 9px 24px light-dark(#0003, #000a);
+  --cx-macos-panel-alpha: 86%;
+  --cx-macos-content-alpha: 94%;
+  --cx-macos-control-alpha: 96%;
+  --cx-macos-frost: blur(14px);
+  --cx-macos-toolbar-fill: color-mix(in srgb, var(--cx-macos-toolbar) var(--cx-macos-panel-alpha), transparent);
+  --cx-macos-toolbar-radius: 10px;
+  --cx-macos-toolbar-inset: 3px;
+
+  &:where([data-theme="light"]) { color-scheme: light; }
+  &:where([data-theme="dark"]) { color-scheme: dark; }
+
+  @media (prefers-reduced-transparency: reduce) {
+    --cx-macos-panel-alpha: 100%;
+    --cx-macos-content-alpha: 100%;
+    --cx-macos-control-alpha: 100%;
+    --cx-macos-frost: none;
+  }
+
+  & [data-app-shell-frame] {
+    background-image: var(--cx-island-frame-image, none) !important;
+  }
+
+  & [data-app-shell-main-titlebar] [data-app-shell-header-toolbar] {
+    position: relative;
+    isolation: isolate;
+
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: var(--cx-macos-toolbar-inset) 0;
+      border-radius: var(--cx-macos-toolbar-radius);
+      background-color: var(--cx-macos-toolbar-fill);
+      box-shadow: var(--cx-macos-panel-shadow);
+      pointer-events: none;
+    }
+  }
+
+  & [data-app-shell-titlebar] button[data-app-shell-workspace-layout-toggle="main"] {
+    --cx-macos-toggle-size: calc(var(--app-shell-header-height, var(--height-toolbar, 46px)) - 2 * var(--cx-macos-toolbar-inset));
+    inline-size: var(--cx-macos-toggle-size);
+    block-size: var(--cx-macos-toggle-size);
+    border-radius: var(--cx-macos-toolbar-radius);
+    background-color: var(--cx-macos-toolbar-fill);
+    box-shadow: var(--cx-macos-panel-shadow);
+
+    &:is(:hover, [aria-pressed="true"]) {
+      background-color: var(--cx-macos-selection);
+    }
+  }
+
+  & [data-app-navigation-rail] {
+    position: relative;
+    margin-block: var(--cx-macos-inset);
+    isolation: isolate;
+
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0 calc(var(--cx-macos-inset) / 2);
+      border-radius: 12px;
+      background-color: var(--cx-macos-toolbar-fill);
+      box-shadow: var(--cx-macos-panel-shadow);
+      pointer-events: none;
+    }
+
+    & [data-appearance] > .w-6.border-t { border-top-color: transparent; }
+  }
+
+  & [data-app-shell-surface-backing],
+  & [data-app-shell-main-surface]:has([data-app-shell-main-content-layout], [data-app-shell-tabs]) {
+    background-color: transparent;
+    border-inline-start-color: transparent;
+  }
+
+  & [data-app-shell-frame][data-app-shell-page-surface="true"] [data-app-shell-surface-backing]::after {
+    box-shadow: none;
+  }
+
+  & [data-app-shell-titlebar]::after,
+  & [data-app-shell-titlebar] > [aria-hidden="true"].border-b-hairline {
+    border-bottom-color: transparent;
+  }
+
+  & [data-app-shell-titlebar-divider] {
+    background-color: transparent;
+  }
+
+  & [data-thread-user-message-navigation-rail-list]:not(:hover, :focus-within, [data-scrubbing="true"]) {
+    opacity: 0;
+  }
+
+  & [data-app-shell-focus-area] .border-l:has([data-app-shell-tabs]) {
+    border-inline-start-color: transparent;
+  }
+
+  & :is(
+    [data-sidebar-navigation-root] [data-slate-sidebar-content],
+    [data-app-shell-main-content-layout],
+    [data-app-shell-tabs]
+  ) {
+    margin: var(--cx-macos-inset);
+    border-radius: 14px;
+    box-shadow: var(--cx-macos-panel-shadow);
+  }
+
+  & :is([data-sidebar-navigation-root] [data-slate-sidebar-content], [data-app-shell-tabs]) {
+    --cx-macos-material: color-mix(in srgb, var(--cx-macos-preset) 68%, oklch(from var(--cx-macos-tint) l 0 0));
+    background-color: color-mix(in srgb, var(--cx-macos-material) var(--cx-macos-panel-alpha), transparent);
+    backdrop-filter: var(--cx-macos-frost);
+
+    & :is([data-app-action-sidebar-thread-row][data-app-action-sidebar-thread-selected="true"], [role="tab"][aria-selected="true"]) {
+      background-color: var(--cx-macos-selection);
+    }
+  }
+
+  & [data-sidebar-navigation-root] [data-slate-sidebar-content] {
+    --cx-macos-preset: var(--cx-macos-sidebar);
+    --cx-macos-tint: var(--cx-macos-sidebarColor, var(--cx-macos-preset));
+  }
+
+  & [data-app-shell-tabs] {
+    --cx-macos-preset: var(--cx-macos-toolbar);
+    --cx-macos-tint: var(--cx-macos-rightPanelColor, var(--cx-macos-preset));
+    --app-shell-panel-background: transparent;
+    block-size: calc(100% - 2 * var(--cx-macos-inset));
+    overflow: clip;
+
+    & [data-new-tab-scroll-root] { background-color: transparent; }
+  }
+
+  & [data-app-shell-main-content-layout] {
+    --cx-macos-material: color-mix(in srgb, var(--cx-macos-content) 68%, oklch(from var(--cx-macos-conversationColor, var(--cx-macos-content)) l 0 0));
+    --app-shell-panel-background: var(--cx-macos-material);
+    background-color: color-mix(in srgb, var(--cx-macos-material) var(--cx-macos-content-alpha), transparent);
+
+    &:not([data-app-shell-right-panel-full-width="true"], [data-app-shell-workspace-layout]) {
+      overflow: clip;
+    }
+
+    & :has(> [data-thread-scroll-footer])::before {
+      background-image: linear-gradient(transparent, var(--cx-macos-material) calc(100% - 22px));
+    }
+
+    & :has(> [data-thread-scroll-footer])::after {
+      background-color: var(--cx-macos-material);
+    }
+
+    & [data-codex-composer-root] [data-composer-surface-variant="default"]:not([data-composer-drag-active]) {
+      --cx-macos-composer: color-mix(in srgb, var(--cx-macos-input) 82%, var(--cx-macos-material));
+      background-color: color-mix(in srgb, var(--cx-macos-composer) var(--cx-macos-control-alpha), transparent);
+      border-radius: 16px;
+      box-shadow: var(--cx-macos-input-shadow);
+
+      @media (prefers-reduced-transparency: reduce) { backdrop-filter: none; }
+    }
+  }
+}
+
+html[data-cx-codexhost-chat-width-macos]:where([data-theme="light"]) {
+  --cx-macos-panel-shadow: 0 3px 9px #0002;
+  --cx-macos-input-shadow: 0 7px 18px #0002;
+}
+
+html[data-cx-codexhost-chat-width-macos] [data-app-shell-main-content-layout]:has(#plugins-store-page-search) {
+  --cx-plugin-surface: light-dark(#fff9, #ffffff0b);
+  --cx-plugin-hover: light-dark(#fffc, #ffffff15);
+
+  & [data-sticky]:has(#plugins-store-page-search)::before {
+    background-color: var(--cx-macos-material);
+  }
+
+  & h1:not(.sr-only) {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  & [data-slot="section-header"] h2 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  & div:has(> #plugins-store-page-search) {
+    min-block-size: 2.25rem;
+    border-color: transparent;
+    border-radius: 10px;
+    background-color: var(--cx-plugin-surface);
+
+    &:focus-within { border-color: var(--color-ring); }
+  }
+
+  & .grid:has(> .group.border-none.select-none) { gap: .625rem; }
+
+  & .grid > .group.border-none.select-none {
+    min-block-size: 4.5rem;
+    padding: .625rem .75rem;
+    border-radius: 12px;
+    background-color: var(--cx-plugin-surface);
+
+    &:is(:hover, :focus-within) { background-color: var(--cx-plugin-hover); }
+    & .line-clamp-1 { -webkit-line-clamp: 2; }
+  }
+}
+
+html[data-cx-codexhost-chat-width-macos] {
+  --cx-macos-settings-surface: color-mix(in srgb, var(--cx-macos-content) 90%, var(--cx-macos-window));
+
+  & :is(
+    [data-app-shell-frame]:has(
+      [data-settings-panel]:not([hidden], [aria-hidden="true"], :is([hidden], [aria-hidden="true"], [role="dialog"]) *)
+    ) [data-sidebar-navigation-root] [data-slate-sidebar-content],
+    [data-app-shell-main-content-layout]:has(
+      [data-settings-panel]:not([hidden], [aria-hidden="true"], :is([hidden], [aria-hidden="true"], [role="dialog"]) *)
+    ),
+    .settings-dialog-sidebar,
+    [data-settings-panel]
+  ) {
+    --cx-macos-material: var(--cx-macos-settings-surface);
+    --app-shell-panel-background: var(--cx-macos-settings-surface);
+    --color-surface: var(--cx-macos-settings-surface);
+    background-color: var(--cx-macos-settings-surface);
+  }
+}

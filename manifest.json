@@ -1,0 +1,23 @@
+{
+  "manifestVersion": 2,
+  "id": "codexhost-chat-width",
+  "version": "0.1.0",
+  "name": { "en": "Island for Codex", "zh-CN": "Island · Codex 界面优化" },
+  "description": {
+    "en": "A cleaner Codex workspace with floating panels, custom colors, and adjustable chat width.",
+    "zh-CN": "把 Codex 界面整理成简洁的悬浮岛，自定义面板配色，并随手调整对话宽度。"
+  },
+  "details": {
+    "en": "In Settings → Appearance → Theme → Custom themes, choose island 毛玻璃. The theme follows light and dark mode, and you can customize the window, conversation list, chat area, and right panel separately. Drag either edge of the conversation to adjust its width, or double-click to reset.",
+    "zh-CN": "在「设置 → 外观 → 主题 → 自定义主题」中选择「island 毛玻璃」。主题适配浅色和深色模式，可分别设置窗口底色、左侧会话栏、中间对话区和右侧面板的颜色。靠近聊天内容两侧可拖动调宽，双击恢复默认宽度。"
+  },
+  "author": "NIU-001-LIU",
+  "repository": "https://github.com/NIU-001-LIU/codexhost-island",
+  "categories": ["appearance", "interface"],
+  "screenshots": ["assets/island-dark.png", "assets/island-light.png"],
+  "desktop": {
+    "apiVersion": 1,
+    "script": "chat-width.js",
+    "style": "chat-width.css"
+  }
+}
